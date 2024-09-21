@@ -1,4 +1,5 @@
 // Функция складывает два сверх больших числа без использования BigInt
+// The function adds two extra large numbers without using BigInt
 
 // *
 // * @param {number} num Первое число.
@@ -15,25 +16,31 @@ function convertAndSumLargeNumber(num, set) {
   // для расчетов, первым аргументом передаю самое большее число
   // for calculations, I pass the largest number as the first argument
   digits.length > digits2.length
-    ? calc(digits, digits2)
-    : calc(digits2, digits);
+    ? toNumberAndCalc(digits, digits2)
+    : toNumberAndCalc(digits2, digits);
 
   // Функция разворачивает массивы чисел и складывает их с конца
   // The function expands arrays of numbers and adds them from the end
-  function calc(one, two) {
-    let ch = one.reverse();
-    let es = two.reverse();
-    ch.forEach((el, index) => {
-      if (es[index]) {
-        let h = Number(el) + Number(es[index]);
+  // *
+  // * @param {string} большая строка с числом
+  // * @param {string} меньшая строка с числом
+  // *
+  // * @returns {array} Результат сложения по одному числу. 1+1; 9+7; ["2", "16",].
+  // *
+  function toNumberAndCalc(oneString, twoString) {
+    let oneReverseString = [...oneString].reverse();
+    let twoReverseString = [...twoString].reverse();
+    oneReverseString.forEach((str, index) => {
+      if (twoReverseString[index]) {
+        let h = Number(str) + Number(twoReverseString[index]);
         mass.push(h);
       } else {
-        mass.push(Number(el));
+        mass.push(Number(str));
       }
     });
   }
 
-  function calcResult(arr) {
+  function arrayToDecimalSum(arr) {
     let newArr = [...arr];
     newArr.forEach((e, i) => {
       if (e > 10) {
@@ -52,5 +59,5 @@ function convertAndSumLargeNumber(num, set) {
     return newArr;
   }
 
-  return calcResult(mass).reverse().join("");
+  return arrayToDecimalSum(mass).reverse().join("");
 }
